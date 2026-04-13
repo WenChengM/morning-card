@@ -1,17 +1,32 @@
+/* UI/UX Pro Max Design System */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400;700&family=Public+Sans:wght@300;400;700&display=swap');
+
 :root {
-  --primary-color: #ff7eb3;
-  --secondary-color: #ff758c;
-  --accent-color: #6a11cb;
-  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.3);
-  --text-main: #2d3436;
-  --text-muted: #636e72;
-  --font-title: 'ZCOOL XiaoWei', serif;
-  --font-content: 'Noto Serif TC', serif;
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  /* 專業配色：寧靜藍與療癒綠 */
+  --primary-color: #0369A1;
+  --secondary-color: #38BDF8;
+  --accent-color: #22C55E;
+  --bg-app: #F0F9FF;
+  --bg-gradient: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+  
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  
+  --text-main: #0C4A6E;
+  --text-muted: #475569;
+  
+  --font-ui-title: 'Libre Bodoni', serif;
+  --font-ui-body: 'Public Sans', sans-serif;
+  
+  /* 為了長輩圖保留的藝術字體 */
+  --font-art-title: 'ZCOOL XiaoWei', serif;
+  --font-art-content: 'Noto Serif TC', serif;
+  
+  --radius-xl: 32px;
+  --radius-lg: 20px;
+  
+  --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
 
 * {
@@ -22,55 +37,59 @@
 }
 
 body {
-  font-family: var(--font-content);
+  font-family: var(--font-ui-body);
   background: var(--bg-gradient);
   color: var(--text-main);
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: env(safe-area-inset-top, 20px);
   overflow-x: hidden;
 }
 
 #root {
   width: 100%;
-  max-width: 500px;
-  padding: 20px;
+  max-width: 540px;
+  padding: 16px;
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 100%;
+  gap: 24px;
 }
 
-/* 頂部標語 */
-.header h1 {
-  font-family: var(--font-title);
-  font-size: 2.5rem;
+/* 頂部標識 - Pro Max 質感 */
+.header {
   text-align: center;
-  margin-bottom: 8px;
-  background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  padding: 10px 0;
+}
+
+.header h1 {
+  font-family: var(--font-ui-title);
+  font-size: 2.8rem;
+  letter-spacing: -0.02em;
+  color: var(--primary-color);
+  margin-bottom: 4px;
 }
 
 .header p {
-  text-align: center;
+  font-size: 1.2rem;
   color: var(--text-muted);
-  font-size: 1.1rem;
+  font-weight: 300;
 }
 
-/* 預覽區域 */
+/* 預覽區域 - 高度比例優化 */
 .preview-section {
   position: relative;
   width: 100%;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   overflow: hidden;
-  box-shadow: var(--shadow);
-  background: #eee;
+  box-shadow: var(--shadow-lg);
+  background: #fff;
   aspect-ratio: 1 / 1;
+  border: 4px solid white;
 }
 
 canvas {
@@ -79,118 +98,150 @@ canvas {
   display: block;
 }
 
-/* 風格選擇器 */
+/* 載入中動畫 */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #e2e8f0;
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 風格選擇器 - 點擊區域優化 */
 .style-picker {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   overflow-x: auto;
-  padding: 10px 5px;
+  padding: 12px 4px;
+  scroll-snap-type: x mandatory;
   scrollbar-width: none;
 }
 
-.style-picker::-webkit-scrollbar {
-  display: none;
-}
+.style-picker::-webkit-scrollbar { display: none; }
 
 .style-item {
-  flex: 0 0 100px;
+  flex: 0 0 110px;
+  scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.style-item:active {
-  transform: scale(0.95);
 }
 
 .style-thumb {
-  width: 80px;
-  height: 80px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   border: 4px solid white;
   background-size: cover;
   background-position: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .style-item.active .style-thumb {
+  transform: scale(1.1);
   border-color: var(--primary-color);
-  box-shadow: 0 0 15px var(--primary-color);
+  box-shadow: 0 0 20px rgba(3, 105, 161, 0.3);
 }
 
 .style-name {
-  font-size: 0.9rem;
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--text-main);
 }
 
-/* 操作面板 */
+/* 操作面板 - 長輩友善設計 (大按鈕 60px+) */
 .action-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  padding: 20px;
-  border-radius: var(--radius-lg);
+  padding: 24px;
+  border-radius: var(--radius-xl);
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  box-shadow: var(--shadow);
-}
-
-.action-row {
-  display: flex;
-  gap: 10px;
-}
-
-button {
-  flex: 1;
-  padding: 18px;
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-generate {
-  background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
-  color: white;
-}
-
-.btn-download {
-  background: linear-gradient(to right, #ff7eb3 0%, #ff758c 100%);
-  color: white;
-}
-
-button:active {
-  transform: scale(0.98);
-  opacity: 0.9;
-}
-
-.input-area {
-  width: 100%;
+  gap: 20px;
+  box-shadow: var(--shadow-lg);
 }
 
 textarea {
   width: 100%;
-  padding: 15px;
-  border-radius: var(--radius-md);
-  border: 1px solid #ddd;
-  font-size: 1.1rem;
-  font-family: var(--font-content);
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  border: 2px solid #E2E8F0;
+  font-size: 1.2rem;
+  font-family: var(--font-ui-body);
+  line-height: 1.6;
   resize: none;
   background: white;
+  color: var(--text-main);
+  transition: border-color 0.2s;
 }
 
 textarea:focus {
   outline: none;
   border-color: var(--primary-color);
+}
+
+.action-row {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  flex: 1;
+  height: 68px; /* Pro Max 大按鈕 */
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-generate {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-download {
+  background: var(--accent-color);
+  color: white;
+}
+
+button:active {
+  transform: scale(0.96);
+  filter: brightness(0.9);
+}
+
+/* 低視力輔助：確保文字對比 */
+@media (prefers-contrast: more) {
+  :root {
+    --text-muted: #000;
+    --primary-color: #000;
+  }
 }
